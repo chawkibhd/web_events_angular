@@ -1,0 +1,107 @@
+<div class="auth-shell">
+  <div class="ambient"></div>
+  <div class="panel">
+    <div class="panel__header">
+      <div class="badge">Gestion d’événements</div>
+      <h1>Bienvenue !</h1>
+      <p>Connecte-toi pour continuer ou crée un compte si c’est ta première fois.</p>
+    </div>
+
+    <div class="tab-switch">
+      <button
+        type="button"
+        hlmButton
+        (click)="changeMode('login')"
+        [ngClass]="mode === 'login' ? 'tab tab--active' : 'tab'">
+        Se connecter
+      </button>
+      <button
+        type="button"
+        hlmButton
+        (click)="changeMode('register')"
+        [ngClass]="mode === 'register' ? 'tab tab--active' : 'tab'">
+        Créer un compte
+      </button>
+    </div>
+
+    <!-- FORMULAIRE LOGIN -->
+    <form *ngIf="mode === 'login'" (ngSubmit)="onLogin()" class="form">
+      <div *ngIf="loginError" class="alert alert--error">
+        {{ loginError }}
+      </div>
+
+      <label hlmLabel class="field">
+        <span>Email</span>
+        <input
+          hlmInput
+          type="email"
+          [(ngModel)]="loginEmail"
+          name="loginEmail"
+          placeholder="vous@example.com" />
+      </label>
+
+      <label hlmLabel class="field">
+        <span>Mot de passe</span>
+        <input
+          hlmInput
+          type="password"
+          [(ngModel)]="loginPassword"
+          name="loginPassword"
+          placeholder="••••••••" />
+      </label>
+
+      <button type="submit" hlmButton class="cta">Se connecter</button>
+    </form>
+
+    <!-- FORMULAIRE INSCRIPTION -->
+    <form *ngIf="mode === 'register'" (ngSubmit)="onRegister()" class="form">
+      <div *ngIf="registerSuccess" class="alert alert--success">
+        {{ registerSuccess }}
+      </div>
+      <div *ngIf="registerError" class="alert alert--error">
+        {{ registerError }}
+      </div>
+
+      <label hlmLabel class="field">
+        <span>Nom complet</span>
+        <input
+          hlmInput
+          type="text"
+          [(ngModel)]="regFullName"
+          name="regFullName"
+          placeholder="Nom Prénom" />
+      </label>
+
+      <label hlmLabel class="field">
+        <span>Email</span>
+        <input
+          hlmInput
+          type="email"
+          [(ngModel)]="regEmail"
+          name="regEmail"
+          placeholder="vous@example.com" />
+      </label>
+
+      <label hlmLabel class="field">
+        <span>Mot de passe</span>
+        <input
+          hlmInput
+          type="password"
+          [(ngModel)]="regPassword"
+          name="regPassword"
+          placeholder="••••••••" />
+      </label>
+
+      <label hlmLabel class="field">
+        <span>Rôle</span>
+        <select [(ngModel)]="regRole" name="regRole" class="select">
+          <option value="PARTICIPANT">Participant</option>
+          <option value="ORGANISATEUR">Organisateur</option>
+        </select>
+      </label>
+
+      <button type="submit" hlmButton class="cta">Créer le compte</button>
+    </form>
+
+  </div>
+</div>

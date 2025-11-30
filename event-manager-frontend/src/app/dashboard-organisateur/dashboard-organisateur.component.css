@@ -1,0 +1,265 @@
+.dash {
+  max-width: 1180px;
+  margin: 32px auto 56px;
+  padding: 0 20px;
+  display: grid;
+  gap: 16px;
+}
+
+.dash__hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  padding: 22px;
+  background: linear-gradient(135deg, #0f172a, #111827);
+  color: #e5e7eb;
+  border-radius: 20px;
+  box-shadow: 0 24px 44px rgba(15, 23, 42, 0.28);
+}
+
+.dash__hero h1 {
+  margin: 4px 0;
+  color: #f8fafc;
+  letter-spacing: -0.02em;
+}
+
+.dash__hero .lede {
+  margin: 0 0 8px;
+  color: #cbd5e1;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+  margin: 0;
+  font-weight: 700;
+  color: #a5b4fc;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  min-width: 220px;
+}
+
+.metric {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  padding: 12px;
+  text-align: right;
+}
+
+.metric p {
+  margin: 0;
+  font-size: 12px;
+  color: #cbd5e1;
+}
+
+.metric strong {
+  display: block;
+  font-size: 28px;
+  color: #fff;
+  line-height: 1.1;
+}
+
+.metric small {
+  color: #94a3b8;
+}
+
+.info.muted {
+  color: #475569;
+  padding: 10px;
+  background: #f8fafc;
+  border-radius: 12px;
+}
+
+.alert {
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 13px;
+  border: 1px solid;
+}
+
+.alert--error {
+  background: #fef2f2;
+  color: #991b1b;
+  border-color: #fecdd3;
+}
+
+.alert--success {
+  background: #ecfdf3;
+  color: #166534;
+  border-color: #bbf7d0;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 14px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+  display: grid;
+  gap: 12px;
+}
+
+.form {
+  display: grid;
+  gap: 12px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.field span {
+  font-size: 13px;
+  letter-spacing: -0.01em;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 96px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  padding: 10px 12px;
+  font-size: 14px;
+  resize: vertical;
+}
+
+.two-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.file input[type="file"] {
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 10px;
+  background: #f8fafc;
+}
+
+.cta {
+  width: 100%;
+  font-weight: 700;
+  border-radius: 12px;
+}
+
+.event-list {
+  display: grid;
+  gap: 10px;
+}
+
+.event-row {
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 14px;
+  display: grid;
+  gap: 6px;
+  background: linear-gradient(180deg, #fff, #f8fafc);
+}
+
+.event-row h4 {
+  margin: 2px 0 0;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+}
+
+.meta {
+  margin: 0;
+  color: #475569;
+  font-size: 13px;
+}
+
+.row-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pill {
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: #0f172a;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  font-size: 13px;
+}
+
+.status {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.empty {
+  padding: 12px;
+  color: #475569;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px dashed #e2e8f0;
+}
+
+@media (max-width: 760px) {
+  .dash__hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .metrics {
+    width: 100%;
+  }
+
+  .row-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .action-buttons {
+    width: 100%;
+  }
+}

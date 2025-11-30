@@ -1,0 +1,87 @@
+<div class="page">
+  <section class="hero">
+    <div>
+      <p class="eyebrow">À découvrir</p>
+      <h1>Événements à venir</h1>
+      <p class="lede">
+        Filtre par lieu, type ou date et découvre rapidement ce qui t’intéresse.
+      </p>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Événements listés</div>
+      <div class="stat-value">{{ events.length || '—' }}</div>
+      <div class="stat-sub">Données en direct</div>
+    </div>
+  </section>
+
+  <section class="card filters">
+    <div class="filters__header">
+      <div>
+        <p class="eyebrow">Recherche avancée</p>
+        <h3>Affiner les résultats</h3>
+      </div>
+      <button hlmButton variant="ghost" size="sm" (click)="resetFilters()">Réinitialiser</button>
+    </div>
+
+    <div class="filters__grid">
+      <label hlmLabel class="field">
+        <span>Mot-clé</span>
+        <input hlmInput type="text" [(ngModel)]="keyword" placeholder="Titre ou mot-clé" />
+      </label>
+
+      <label hlmLabel class="field">
+        <span>Lieu</span>
+        <input hlmInput type="text" [(ngModel)]="lieu" placeholder="Paris, Lyon..." />
+      </label>
+
+      <label hlmLabel class="field">
+        <span>Type</span>
+        <input hlmInput type="text" [(ngModel)]="type" placeholder="conférence, meetup..." />
+      </label>
+
+      <label hlmLabel class="field">
+        <span>Date début (après)</span>
+        <input hlmInput type="datetime-local" [(ngModel)]="dateDebut" />
+      </label>
+
+      <label hlmLabel class="field">
+        <span>Date fin (avant)</span>
+        <input hlmInput type="datetime-local" [(ngModel)]="dateFin" />
+      </label>
+    </div>
+
+    <div class="filters__actions">
+      <button hlmButton size="lg" (click)="search()">Rechercher</button>
+      <button hlmButton variant="ghost" (click)="resetFilters()">Effacer</button>
+    </div>
+  </section>
+
+  <section class="list-area card">
+    <div *ngIf="loading" class="info muted">Chargement des événements...</div>
+    <div *ngIf="error" class="alert alert--error">{{ error }}</div>
+
+    <div class="grid" *ngIf="!loading && events.length > 0">
+      <article class="event-card" *ngFor="let event of events">
+        <div class="event-card__head">
+          <div>
+            <p class="eyebrow">{{ event.type || 'Événement' }}</p>
+            <h4>{{ event.titre }}</h4>
+          </div>
+          <div class="pill">{{ event.dateDebut | date:'shortDate' }}</div>
+        </div>
+        <p class="meta">
+          {{ event.lieu || 'Lieu à venir' }} ·
+          {{ event.dateDebut | date:'shortTime' }} — {{ event.dateFin | date:'shortTime' }}
+        </p>
+        <p class="desc" *ngIf="event.description">{{ event.description }}</p>
+        <div class="card-actions">
+          <a hlmButton size="sm" [routerLink]="['/events', event.id]">Voir le détail</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="empty" *ngIf="!loading && events.length === 0">
+      Aucun événement trouvé avec ces filtres.
+    </div>
+  </section>
+</div>

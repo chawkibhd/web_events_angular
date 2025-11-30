@@ -1,0 +1,135 @@
+<div class="dash">
+  <section class="dash__hero">
+    <div>
+      <p class="eyebrow">Espace organisateur</p>
+      <h1>Dashboard & créations</h1>
+      <p class="lede">Gère tes événements, suis les inscriptions et publie de nouvelles dates.</p>
+      <a hlmButton variant="ghost" routerLink="/events">← Voir la page publique</a>
+    </div>
+    <div class="metrics">
+      <div class="metric">
+        <p>Événements</p>
+        <strong>{{ events.length || 0 }}</strong>
+        <small>Actifs</small>
+      </div>
+      <div class="metric">
+        <p>Inscriptions</p>
+        <strong>{{ totalRegistrations || 0 }}</strong>
+        <small>Total cumulé</small>
+      </div>
+    </div>
+  </section>
+
+  <div *ngIf="loading" class="info muted">Chargement des événements...</div>
+  <div *ngIf="error" class="alert alert--error">{{ error }}</div>
+  <div *ngIf="success" class="alert alert--success">{{ success }}</div>
+
+  <section class="grid-2">
+    <div class="card">
+      <p class="eyebrow">Créer un événement</p>
+      <h3>Nouvelle publication</h3>
+
+      <form (ngSubmit)="createEvent()" class="form">
+        <label hlmLabel class="field">
+          <span>Titre</span>
+          <input hlmInput type="text" [(ngModel)]="newEvent.titre" name="titre" placeholder="Nom de l’événement" />
+        </label>
+
+        <label hlmLabel class="field">
+          <span>Lieu</span>
+          <input hlmInput type="text" [(ngModel)]="newEvent.lieu" name="lieu" placeholder="Paris, Salle X..." />
+        </label>
+
+        <div class="two-cols">
+          <label hlmLabel class="field">
+            <span>Date début</span>
+            <input hlmInput type="datetime-local" [(ngModel)]="newEvent.dateDebut" name="dateDebut" />
+          </label>
+          <label hlmLabel class="field">
+            <span>Date fin</span>
+            <input hlmInput type="datetime-local" [(ngModel)]="newEvent.dateFin" name="dateFin" />
+          </label>
+        </div>
+
+        <label hlmLabel class="field">
+          <span>Type</span>
+          <input hlmInput type="text" [(ngModel)]="newEvent.type" name="type" placeholder="Conférence, atelier..." />
+        </label>
+
+        <label hlmLabel class="field">
+          <span>Description</span>
+          <textarea class="textarea" [(ngModel)]="newEvent.description" name="description" rows="3"></textarea>
+        </label>
+
+        <label hlmLabel class="field">
+          <span>URL de l’image</span>
+          <input hlmInput type="text" [(ngModel)]="newEvent.imageUrl" name="imageUrl" placeholder="https://..." />
+        </label>
+
+        <label class="field file">
+          <span>Upload d’affiche (optionnel)</span>
+          <input type="file" (change)="onImageFileSelected($event)" />
+          <small *ngIf="newEvent.imageUrl">Image actuelle : {{ newEvent.imageUrl }}</small>
+        </label>
+
+        <label hlmLabel class="field">
+          <span>Programme (PDF)</span>
+          <input hlmInput type="text" [(ngModel)]="newEvent.programmeUrl" name="programmeUrl" placeholder="https://..." />
+        </label>
+
+        <button hlmButton type="submit" size="lg" class="cta">Publier l’événement</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <p class="eyebrow">Mes événements</p>
+      <h3>Suivi des dates</h3>
+
+      <div *ngIf="events.length === 0 && !loading" class="empty">Aucun événement pour le moment.</div>
+
+      <div class="event-list">
+        <article class="event-row" *ngFor="let event of events">
+          <div>
+            <p class="eyebrow">{{ event.type || 'Événement' }}</p>
+            <h4>{{ event.titre }}</h4>
+            <p class="meta">
+              {{ event.lieu }} · {{ event.dateDebut | date:'short' }}
+            </p>
+          </div>
+          <div class="row-actions">
+            <span class="pill">Participants {{ participantsStats[event.id!] || 0 }}</span>
+            <div class="action-buttons">
+              <a hlmButton size="sm" [routerLink]="['/events', event.id]">Voir</a>
+              <button hlmButton size="sm" variant="ghost" (click)="loadParticipantsForEvent(event)">Participants</button>
+              <button hlmButton size="sm" variant="destructive" (click)="deleteEvent(event.id)">Supprimer</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" *ngIf="selectedEvent">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Participants</p>
+        <h3>{{ selectedEvent.titre }}</h3>
+      </div>
+      <div class="pill">Inscriptions {{ selectedEventRegistrations.length }}</div>
+    </div>
+
+    <div *ngIf="participantsLoading" class="info muted">Chargement des participants...</div>
+    <div *ngIf="participantsError" class="alert alert--error">{{ participantsError }}</div>
+
+    <div class="chips" *ngIf="!participantsLoading && selectedEventRegistrations.length > 0">
+      <div class="chip" *ngFor="let r of selectedEventRegistrations">
+        <strong>ID {{ r.participantId }}</strong>
+        <span class="status">{{ r.statut }}</span>
+      </div>
+    </div>
+
+    <div *ngIf="!participantsLoading && selectedEventRegistrations.length === 0" class="empty">
+      Aucun participant inscrit.
+    </div>
+  </section>
+</div>

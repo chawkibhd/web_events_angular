@@ -1,0 +1,53 @@
+<div class="notify">
+  <div class="popup" *ngIf="showPopup && popupNotification">
+    <div class="popup__eyebrow">Notification</div>
+    <div class="popup__title">{{ popupNotification.type || 'Info' }}</div>
+    <p class="popup__message">{{ popupNotification.message }}</p>
+    <small class="popup__time" *ngIf="popupNotification.dateCreation">
+      {{ popupNotification.dateCreation | date:'short' }}
+    </small>
+    <div class="popup__actions">
+      <button hlmButton size="sm" (click)="markPopupAsRead()">Marquer comme lue</button>
+      <button hlmButton variant="ghost" size="sm" (click)="closePopup()">Fermer</button>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div>
+      <p class="eyebrow">Centre d’alertes</p>
+      <h1>Mes notifications</h1>
+      <p class="lede">Reste informé des inscriptions, confirmations et mises à jour.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <div *ngIf="loading" class="info muted">Chargement...</div>
+    <div *ngIf="error" class="alert alert--error">{{ error }}</div>
+
+    <div class="list" *ngIf="!loading && notifications.length > 0">
+      <article class="notif" *ngFor="let notif of notifications">
+        <div class="notif__head">
+          <div class="pill" [class.pill--read]="notif.lue">
+            {{ notif.type || 'Info' }}
+          </div>
+          <span class="time" *ngIf="notif.dateCreation">{{ notif.dateCreation | date:'short' }}</span>
+        </div>
+        <p class="message" [class.message--read]="notif.lue">{{ notif.message }}</p>
+        <div class="actions">
+          <button
+            *ngIf="!notif.lue"
+            hlmButton
+            size="sm"
+            (click)="markAsRead(notif)">
+            Marquer comme lue
+          </button>
+          <span class="status" *ngIf="notif.lue">Déjà lue</span>
+        </div>
+      </article>
+    </div>
+
+    <div class="empty" *ngIf="!loading && notifications.length === 0">
+      Aucune notification pour le moment.
+    </div>
+  </section>
+</div>

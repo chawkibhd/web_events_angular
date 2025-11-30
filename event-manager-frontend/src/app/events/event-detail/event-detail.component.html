@@ -1,0 +1,93 @@
+<div class="detail-page">
+  <a class="back-link" routerLink="/events">← Retour aux événements</a>
+
+  <div *ngIf="loading" class="info muted">Chargement de l’événement...</div>
+  <div *ngIf="error" class="alert alert--error">{{ error }}</div>
+
+  <section *ngIf="!loading && event" class="layout">
+    <div class="hero">
+      <div>
+        <p class="eyebrow">{{ event.type || 'Événement' }}</p>
+        <h1>{{ event.titre }}</h1>
+        <p class="lede">{{ event.lieu }}</p>
+        <div class="chips">
+          <span class="chip">
+            Début · {{ event.dateDebut | date:'mediumDate' }} {{ event.dateDebut | date:'shortTime' }}
+          </span>
+          <span class="chip">
+            Fin · {{ event.dateFin | date:'mediumDate' }} {{ event.dateFin | date:'shortTime' }}
+          </span>
+        </div>
+      </div>
+      <div class="pill">Participants {{ participantsCount }}</div>
+    </div>
+
+    <div class="content-grid">
+      <article class="card main">
+        <div class="cover" *ngIf="event.imageUrl; else placeholder">
+          <img [src]="event.imageUrl" [alt]="'Affiche ' + event.titre" />
+        </div>
+        <ng-template #placeholder>
+          <div class="cover cover--placeholder">
+            <span>Affiche non fournie</span>
+          </div>
+        </ng-template>
+
+        <div class="meta-grid">
+          <div class="meta">
+            <span>Lieu</span>
+            <strong>{{ event.lieu }}</strong>
+          </div>
+          <div class="meta">
+            <span>Type</span>
+            <strong>{{ event.type || 'Non renseigné' }}</strong>
+          </div>
+          <div class="meta">
+            <span>Programme</span>
+            <a *ngIf="event.programmeUrl" [href]="event.programmeUrl" target="_blank">Ouvrir le PDF</a>
+            <small *ngIf="!event.programmeUrl">Non fourni</small>
+          </div>
+          <div class="meta">
+            <span>Organisateur</span>
+            <strong>#{{ event.organisateurId || 'N/A' }}</strong>
+          </div>
+        </div>
+
+        <div class="section">
+          <p class="eyebrow">À propos</p>
+          <p class="description">
+            {{ event.description || 'Aucune description disponible pour le moment.' }}
+          </p>
+        </div>
+      </article>
+
+      <aside class="card side">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Inscription</p>
+            <h3>Réserve ta place</h3>
+          </div>
+          <div class="badge">{{ participantsCount }} inscrits</div>
+        </div>
+
+        <p class="muted">
+          Confirme ta présence pour recevoir les mises à jour de l’événement.
+        </p>
+
+        <div *ngIf="regError" class="alert alert--error">{{ regError }}</div>
+        <div *ngIf="regSuccess" class="alert alert--success">{{ regSuccess }}</div>
+
+        <button *ngIf="!isRegistered" class="cta" (click)="register()">
+          S’inscrire à cet événement
+        </button>
+        <button *ngIf="isRegistered" class="cta ghost" (click)="unregister()">
+          Se désinscrire
+        </button>
+      </aside>
+    </div>
+  </section>
+
+  <div *ngIf="!loading && !event && !error" class="empty">
+    Événement introuvable.
+  </div>
+</div>

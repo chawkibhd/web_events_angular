@@ -1,0 +1,40 @@
+<header class="w-full border-b border-neutral-200 bg-white">
+  <div class="mx-auto max-w-5xl flex items-center justify-between px-4 py-3">
+    <!-- Logo / titre -->
+    <a routerLink="/" class="text-base font-semibold text-neutral-900">
+      Gestion d’événements
+    </a>
+
+    <!-- Liens de navigation -->
+    <nav class="flex items-center gap-4 text-sm">
+      <a routerLink="/" class="nav-link">Événements</a>
+
+      <a *ngIf="isOrganisateur" routerLink="/dashboard" class="nav-link">
+        Dashboard organisateur
+      </a>
+
+      <a *ngIf="currentUser" routerLink="/notifications" class="nav-link">
+        Mes notifications
+      </a>
+
+      <ng-container *ngIf="currentUser as user; else loginLink">
+        <div class="user-pill">
+          <div class="user-name">{{ user.fullName || user.email }}</div>
+          <div class="user-meta">{{ user.email }} · {{ user.role }}</div>
+        </div>
+        <button type="button" (click)="logout()" class="btn-ghost">
+          Se déconnecter
+        </button>
+      </ng-container>
+
+      <ng-template #loginLink>
+        <a routerLink="/login" class="btn-ghost">
+          Se connecter
+        </a>
+      </ng-template>
+    </nav>
+  </div>
+</header>
+
+<!-- Ici ton <router-outlet> ou l’équivalent standalone -->
+<router-outlet></router-outlet>

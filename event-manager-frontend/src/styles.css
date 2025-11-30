@@ -1,0 +1,31 @@
+/* ------------------------------------------------------
+   TAILWIND RESET (doit toujours être AU DÉBUT)
+------------------------------------------------------ */
+@import 'tailwindcss/preflight.css';
+
+/* ------------------------------------------------------
+   Thème Spartan (optionnel)
+------------------------------------------------------ */
+@import "@spartan-ng/brain/hlm-tailwind-preset.css";
+
+/* ------------------------------------------------------
+   Tailwind utilities
+------------------------------------------------------ */
+@import 'tailwindcss/utilities.css';
+
+/* ------------------------------------------------------
+   STYLES GLOBAUX SIMPLES POUR QUE TOUT MARCHE
+------------------------------------------------------ */
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #f4f4f5;
+  margin: 0;
+  padding: 0;
+  color: #111827;
+}
+
+/* supprime les erreurs causées par @apply */
+* {
+  box-sizing: border-box;
+}

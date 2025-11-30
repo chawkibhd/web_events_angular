@@ -1,0 +1,175 @@
+.notify {
+  max-width: 960px;
+  margin: 32px auto 56px;
+  padding: 0 20px;
+  display: grid;
+  gap: 16px;
+  position: relative;
+}
+
+.popup {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 20;
+  width: min(340px, 90vw);
+  background: #0f172a;
+  color: #f8fafc;
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.38);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.popup__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+  margin: 0;
+  color: #a5b4fc;
+  font-weight: 700;
+}
+
+.popup__title {
+  margin: 4px 0;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.popup__message {
+  margin: 4px 0 6px;
+  color: #e2e8f0;
+}
+
+.popup__time {
+  color: #cbd5e1;
+}
+
+.popup__actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.hero {
+  padding: 20px 22px;
+  background: linear-gradient(135deg, #0f172a, #111827);
+  color: #e5e7eb;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.26);
+}
+
+.hero h1 {
+  margin: 4px 0;
+  color: #f8fafc;
+  letter-spacing: -0.02em;
+}
+
+.hero .lede {
+  margin: 0;
+  color: #cbd5e1;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+  margin: 0;
+  font-weight: 700;
+  color: #a5b4fc;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+}
+
+.info.muted {
+  color: #475569;
+}
+
+.alert {
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 13px;
+  border: 1px solid;
+}
+
+.alert--error {
+  background: #fef2f2;
+  color: #991b1b;
+  border-color: #fecdd3;
+}
+
+.list {
+  display: grid;
+  gap: 12px;
+}
+
+.notif {
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 12px;
+  background: linear-gradient(180deg, #fff, #f8fafc);
+  display: grid;
+  gap: 8px;
+}
+
+.notif__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pill {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #0f172a;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.pill--read {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.time {
+  font-size: 12px;
+  color: #475569;
+}
+
+.message {
+  margin: 0;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.message--read {
+  color: #475569;
+  font-weight: 500;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status {
+  font-size: 12px;
+  color: #475569;
+}
+
+.empty {
+  padding: 12px;
+  color: #475569;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px dashed #e2e8f0;
+  text-align: center;
+}
