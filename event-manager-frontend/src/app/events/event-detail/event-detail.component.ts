@@ -19,6 +19,10 @@ export class EventDetailComponent implements OnInit {
   event?: EventModel;
   loading: boolean = false;
   error?: string;
+  private readonly gatewayBase = 'http://localhost:8080';
+
+  organizerName?: string;
+  organizerEmail?: string;
 
   // inscriptions
   registrations: Registration[] = [];
@@ -55,13 +59,33 @@ export class EventDetailComponent implements OnInit {
 
     this.eventsService.getEvent(id).subscribe({
       next: (data) => {
+        // Si l'URL de l'image est relative (/api/files/xxx), on la rend absolue via le gateway
+        if (data.imageUrl && data.imageUrl.startsWith('/')) {
+          data.imageUrl = `${this.gatewayBase}${data.imageUrl}`;
+        }
         this.event = data;
         this.loading = false;
+        if (data.organisateurId) {
+          this.loadOrganizer(data.organisateurId);
+        }
         this.loadRegistrations(id);
       },
       error: () => {
         this.error = 'Erreur lors du chargement de l’événement.';
         this.loading = false;
+      }
+    });
+  }
+
+  private loadOrganizer(organisateurId: number) {
+    this.authService.getUserById(organisateurId).subscribe({
+      next: (user) => {
+        this.organizerName = user.fullName || user.email || `Organisateur #${user.id}`;
+        this.organizerEmail = user.email;
+      },
+      error: () => {
+        this.organizerName = undefined;
+        this.organizerEmail = undefined;
       }
     });
   }

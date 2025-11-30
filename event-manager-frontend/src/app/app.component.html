@@ -1,22 +1,23 @@
-<header class="w-full border-b border-neutral-200 bg-white">
-  <div class="mx-auto max-w-5xl flex items-center justify-between px-4 py-3">
+<header class="topbar">
+  <div class="topbar__inner">
     <!-- Logo / titre -->
-    <a routerLink="/" class="text-base font-semibold text-neutral-900">
-      Gestion d’événements
-    </a>
+    <a routerLink="/" class="brand">Gestion d’événements</a>
 
-    <!-- Liens de navigation -->
-    <nav class="flex items-center gap-4 text-sm">
-      <a routerLink="/" class="nav-link">Événements</a>
+    <!-- Liens de navigation centrés -->
+    <nav class="nav-center">
+      <a routerLink="/" routerLinkActive="active" class="nav-link">Événements</a>
 
-      <a *ngIf="isOrganisateur" routerLink="/dashboard" class="nav-link">
+      <a *ngIf="isOrganisateur" routerLink="/dashboard" routerLinkActive="active" class="nav-link">
         Dashboard organisateur
       </a>
 
-      <a *ngIf="currentUser" routerLink="/notifications" class="nav-link">
+      <a *ngIf="currentUser" routerLink="/notifications" routerLinkActive="active" class="nav-link">
         Mes notifications
       </a>
+    </nav>
 
+    <!-- Espace utilisateur -->
+    <div class="user-area">
       <ng-container *ngIf="currentUser as user; else loginLink">
         <div class="user-pill">
           <div class="user-name">{{ user.fullName || user.email }}</div>
@@ -32,7 +33,7 @@
           Se connecter
         </a>
       </ng-template>
-    </nav>
+    </div>
   </div>
 </header>
 

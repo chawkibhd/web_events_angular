@@ -20,6 +20,13 @@ interface LoginResponse {
   role: string;
 }
 
+export interface UserProfile {
+  id: number;
+  email: string;
+  fullName?: string;
+  role: UserRole;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -92,5 +99,10 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return !!this.currentUser;
+  }
+
+  /** Récupère les infos publiques d'un utilisateur par son id (via gateway) */
+  getUserById(id: number) {
+    return this.http.get<UserProfile>(`${this.apiUrl}/users/${id}`);
   }
 }
