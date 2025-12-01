@@ -37,4 +37,12 @@ export class RegistrationsService {
   getRegistrationsByParticipant(participantId: number): Observable<Registration[]> {
     return this.http.get<Registration[]>(`${this.baseUrl}/participant/${participantId}`);
   }
+
+  updateStatus(eventId: number, participantId: number, statut: string): Observable<Registration> {
+    return this.http.patch<Registration>(
+      `${this.baseUrl}/event/${eventId}/participant/${participantId}/statut`,
+      null,
+      { params: { statut } }
+    );
+  }
 }

@@ -12,8 +12,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            // On désactive CSRF pour H2
-            .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
+            // API stateless : on désactive CSRF pour tout (sinon POST vers /api/notifications renvoie 403)
+            .csrf(csrf -> csrf.disable())
 
             // On autorise TOUT pour simplifier (tu remettras des règles plus tard si besoin)
             .authorizeHttpRequests(auth -> auth

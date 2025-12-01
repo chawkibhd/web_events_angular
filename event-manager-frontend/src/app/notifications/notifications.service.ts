@@ -36,4 +36,9 @@ export class NotificationsService {
       `${this.baseUrl}/${id}/lue`, {}
     );
   }
+
+  /** Supprimer une notification */
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
 }

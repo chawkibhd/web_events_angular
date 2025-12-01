@@ -115,7 +115,11 @@
   padding: 12px;
   background: linear-gradient(180deg, #fff, #f8fafc);
   display: grid;
+  grid-template-columns: 1fr auto;
   gap: 8px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
 .notif__head {
@@ -156,6 +160,7 @@
 
 .actions {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 10px;
 }
@@ -165,6 +170,11 @@
   color: #475569;
 }
 
+.decision {
+  display: flex;
+  gap: 8px;
+}
+
 .empty {
   padding: 12px;
   color: #475569;
@@ -172,4 +182,24 @@
   border-radius: 12px;
   border: 1px dashed #e2e8f0;
   text-align: center;
+}
+
+.notif__content {
+  transition: transform 0.18s ease;
+}
+
+.trash {
+  align-self: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease;
+}
+
+.notif:hover .notif__content {
+  transform: translateX(-60px);
+}
+
+.notif:hover .trash {
+  opacity: 1;
+  pointer-events: auto;
 }

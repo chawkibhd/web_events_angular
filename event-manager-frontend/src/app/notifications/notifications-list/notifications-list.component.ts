@@ -4,6 +4,7 @@ import { NotificationsService } from '../notifications.service';
 import { NotificationModel } from '../notification.model';
 import { AuthService } from '../../auth/auth.service';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
+import { RegistrationsService } from '../../registrations/registrations.service';
 
 @Component({
   selector: 'app-notifications-list',
@@ -19,13 +20,17 @@ export class NotificationsListComponent implements OnInit {
   error?: string;
   showPopup = false;
   popupNotification?: NotificationModel;
+  isOrganisateur = false;
 
   constructor(
     private notificationsService: NotificationsService,
-    private authService: AuthService
+    private authService: AuthService,
+    private registrationsService: RegistrationsService
   ) {}
 
   ngOnInit(): void {
+    const user = this.authService.getUser();
+    this.isOrganisateur = user?.role === 'ORGANISATEUR';
     this.loadNotifications();
   }
 
@@ -89,6 +94,45 @@ export class NotificationsListComponent implements OnInit {
       },
       error: () => {
         this.error = 'Erreur lors de la mise à jour de la notification.';
+      }
+    });
+  }
+
+  decideRegistration(notif: NotificationModel, decision: 'ACCEPTEE' | 'REFUSEE'): void {
+    if (!notif.eventId || !notif.participantId) {
+      this.error = 'Impossible de traiter la décision : données manquantes.';
+      return;
+    }
+
+    this.registrationsService.updateStatus(notif.eventId, notif.participantId, decision).subscribe({
+      next: () => {
+        // Met à jour le message localement
+        notif.message = decision === 'ACCEPTEE'
+          ? 'Inscription acceptée.'
+          : 'Inscription refusée.';
+        notif.lue = true;
+      },
+      error: () => {
+        this.error = 'Erreur lors de la mise à jour de l’inscription.';
+      }
+    });
+  }
+
+  deleteNotification(notif: NotificationModel): void {
+    if (!notif.id) return;
+
+    // Bloque la suppression d'une nouvelle inscription tant que l'organisateur n'a pas décidé
+    if (this.isOrganisateur && notif.type === 'NOUVELLE_INSCRIPTION' && !notif.lue) {
+      this.error = 'Décide d’abord (accepter/refuser) avant de supprimer.';
+      return;
+    }
+
+    this.notificationsService.delete(notif.id).subscribe({
+      next: () => {
+        this.notifications = this.notifications.filter(n => n.id !== notif.id);
+      },
+      error: () => {
+        this.error = 'Erreur lors de la suppression de la notification.';
       }
     });
   }

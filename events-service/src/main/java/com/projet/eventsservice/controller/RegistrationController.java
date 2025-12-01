@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projet.eventsservice.dto.UserInfo;
@@ -153,5 +155,40 @@ public class RegistrationController {
     @GetMapping("/participant/{participantId}")
     public List<Registration> getByParticipant(@PathVariable Long participantId) {
         return registrationRepository.findByParticipantId(participantId);
+    }
+
+    // Mettre à jour le statut d'une inscription (organisateur)
+    @PatchMapping("/event/{eventId}/participant/{participantId}/statut")
+    public ResponseEntity<Registration> updateStatus(
+            @PathVariable Long eventId,
+            @PathVariable Long participantId,
+            @RequestParam String statut) {
+
+        var regOpt = registrationRepository.findByEventIdAndParticipantId(eventId, participantId);
+        if (regOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Registration reg = regOpt.get();
+        reg.setStatut(statut.toUpperCase());
+        reg = registrationRepository.save(reg);
+
+        Event event = eventRepository.findById(eventId).orElse(null);
+        String eventTitle = resolveEventTitle(eventId, event);
+
+        // notifier le participant de la décision
+        String decision = reg.getStatut().equalsIgnoreCase("REFUSEE") ? "REFUSEE" : "ACCEPTEE";
+        String msg = decision.equals("REFUSEE")
+                ? "Votre inscription à " + eventTitle + " a été refusée."
+                : "Votre inscription à " + eventTitle + " a été acceptée.";
+
+        notificationClient.sendNotification(
+                participantId,
+                eventId,
+                decision.equals("REFUSEE") ? "INSCRIPTION_REFUSEE" : "INSCRIPTION_ACCEPTEE",
+                msg
+        );
+
+        return ResponseEntity.ok(reg);
     }
 }

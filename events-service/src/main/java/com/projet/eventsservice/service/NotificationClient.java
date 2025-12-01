@@ -14,8 +14,9 @@ import com.projet.eventsservice.dto.UserInfo;
 public class NotificationClient {
 
     private final RestTemplate restTemplate;
-    private final String notificationsBaseUrl = "http://localhost:8083/api/notifications";
-    private final String authBaseUrl = "http://localhost:8082/api/auth/users";
+    // Passe par le gateway pour éviter les problèmes d'accès direct aux microservices
+    private final String notificationsBaseUrl = "http://localhost:8080/api/notifications";
+    private final String authBaseUrl = "http://localhost:8080/api/auth/users";
 
     public NotificationClient(RestTemplateBuilder builder) {
         this.restTemplate = builder.build();
