@@ -35,6 +35,7 @@ export class EventsListComponent implements OnInit {
   type: string = '';
   dateDebut: string = '';
   dateFin: string = '';
+  showAdvanced = false;
 
   constructor(private eventsService: EventsService) {}
 
@@ -59,6 +60,7 @@ export class EventsListComponent implements OnInit {
   }
 
   search(): void {
+    // toggle advanced hidden? keep state
     // si aucun critère => recharger tout
     if (
       (!this.keyword || this.keyword.trim() === '') &&
@@ -95,5 +97,9 @@ export class EventsListComponent implements OnInit {
     this.dateDebut = '';
     this.dateFin = '';
     this.loadEvents();
+  }
+
+  toggleAdvanced(): void {
+    this.showAdvanced = !this.showAdvanced;
   }
 }

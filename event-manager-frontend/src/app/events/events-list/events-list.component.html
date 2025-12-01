@@ -14,13 +14,34 @@
     </div>
   </section>
 
-  <section class="card filters">
+  <section class="card quick-search" *ngIf="!showAdvanced">
+    <div class="quick-search__content">
+      <input
+        hlmInput
+        type="text"
+        [(ngModel)]="keyword"
+        placeholder="Rechercher un événement, un lieu, un type..."
+        (keyup.enter)="search()" />
+      <div class="quick-search__actions">
+        <button hlmButton size="lg" (click)="search()">Rechercher</button>
+        <button hlmButton variant="ghost" size="lg" (click)="resetFilters()">Effacer</button>
+      </div>
+    </div>
+    <button hlmButton variant="ghost" size="sm" class="filter-toggle" (click)="toggleAdvanced()">
+      Mode avancé
+    </button>
+  </section>
+
+  <section class="card filters" *ngIf="showAdvanced">
     <div class="filters__header">
       <div>
         <p class="eyebrow">Recherche avancée</p>
         <h3>Affiner les résultats</h3>
       </div>
-      <button hlmButton variant="ghost" size="sm" (click)="resetFilters()">Réinitialiser</button>
+      <div class="filters__header-actions">
+        <button hlmButton variant="ghost" size="sm" (click)="resetFilters()">Réinitialiser</button>
+        <button hlmButton size="sm" (click)="toggleAdvanced()">Masquer</button>
+      </div>
     </div>
 
     <div class="filters__grid">
