@@ -46,7 +46,11 @@ export class NotificationsListComponent implements OnInit {
 
     this.notificationsService.getMyNotifications().subscribe({
       next: (data) => {
-        this.notifications = data;
+        this.notifications = data.map((notif) => ({
+          ...notif,
+          originalMessage: notif.message,
+          decision: this.inferDecision(notif)
+        }));
         this.loading = false;
         this.preparePopup();
       },
@@ -98,6 +102,24 @@ export class NotificationsListComponent implements OnInit {
     });
   }
 
+  private inferDecision(notif: NotificationModel): 'ACCEPTEE' | 'REFUSEE' | undefined {
+    const content = (notif.message || '').toLowerCase();
+    if (content.includes('accept')) {
+      return 'ACCEPTEE';
+    }
+    if (content.includes('refus')) {
+      return 'REFUSEE';
+    }
+    return undefined;
+  }
+
+  resetDecision(notif: NotificationModel): void {
+    notif.decision = undefined;
+    if (notif.originalMessage) {
+      notif.message = notif.originalMessage;
+    }
+  }
+
   decideRegistration(notif: NotificationModel, decision: 'ACCEPTEE' | 'REFUSEE'): void {
     if (!notif.eventId || !notif.participantId) {
       this.error = 'Impossible de traiter la décision : données manquantes.';
@@ -107,10 +129,14 @@ export class NotificationsListComponent implements OnInit {
     this.registrationsService.updateStatus(notif.eventId, notif.participantId, decision).subscribe({
       next: () => {
         // Met à jour le message localement
+        if (!notif.originalMessage) {
+          notif.originalMessage = notif.message;
+        }
         notif.message = decision === 'ACCEPTEE'
           ? 'Inscription acceptée.'
           : 'Inscription refusée.';
         notif.lue = true;
+        notif.decision = decision;
       },
       error: () => {
         this.error = 'Erreur lors de la mise à jour de l’inscription.';

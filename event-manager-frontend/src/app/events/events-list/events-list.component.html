@@ -28,7 +28,22 @@
       </div>
     </div>
     <button hlmButton variant="ghost" size="sm" class="filter-toggle" (click)="toggleAdvanced()">
-      Mode avancé
+      <span class="filter-toggle__icon" aria-hidden="true">
+        <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M4 5h8M4 11h6"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round" />
+          <circle cx="9.5" cy="5" r="1.6" fill="currentColor" />
+          <circle cx="6.5" cy="11" r="1.6" fill="currentColor" />
+        </svg>
+      </span>
+      <span class="filter-toggle__text">
+        Mode avancé
+        <small>Filtres précis</small>
+      </span>
     </button>
   </section>
 

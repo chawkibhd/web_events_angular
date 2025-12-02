@@ -160,9 +160,94 @@
 
 .actions {
   display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  min-width: 180px;
   flex-wrap: wrap;
+  transition: transform 0.18s ease;
+}
+
+.actions__primary {
+  display: flex;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.actions button,
+.trash-btn {
+  transform: none !important;
+  transition: background-color 140ms ease, box-shadow 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+
+.btn-read {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  color: #fff;
+  border: 1px solid #0284c7;
+  font-weight: 700;
+  box-shadow: 0 10px 20px rgba(14, 165, 233, 0.22);
+  border-radius: 999px;
+  padding-inline: 14px;
+}
+
+.btn-read:hover {
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  box-shadow: 0 12px 22px rgba(14, 165, 233, 0.3);
+}
+
+.btn-accept {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #fff;
+  border: 1px solid #16a34a;
+  font-weight: 800;
+  box-shadow: 0 10px 20px rgba(34, 197, 94, 0.22);
+  border-radius: 999px;
+  padding-inline: 16px;
+}
+
+.btn-accept:hover {
+  background: linear-gradient(135deg, #34d399, #22c55e);
+  box-shadow: 0 12px 22px rgba(34, 197, 94, 0.3);
+}
+
+.btn-refuse {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecdd3;
+  font-weight: 800;
+  box-shadow: 0 6px 12px rgba(239, 68, 68, 0.18);
+  border-radius: 999px;
+  padding-inline: 16px;
+}
+
+.btn-refuse:hover {
+  background: #fee2e2;
+  border-color: #fca5a5;
+  color: #991b1b;
+}
+
+.btn-refuse:active,
+.btn-accept:active,
+.btn-read:active {
+  transform: none;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.14);
+}
+
+.btn-modify {
+  background: #f1f5f9;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+  font-weight: 800;
+  border-radius: 999px;
+  padding-inline: 14px;
+  box-shadow: 0 8px 14px rgba(15, 23, 42, 0.08);
+}
+
+.btn-modify:hover {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
 }
 
 .status {
@@ -172,7 +257,32 @@
 
 .decision {
   display: flex;
+  flex-direction: column;
   gap: 8px;
+  align-items: flex-end;
+}
+
+.decision__badge .badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: -0.01em;
+}
+
+.badge--accept {
+  background: #ecfdf3;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.badge--refuse {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecdd3;
 }
 
 .empty {
@@ -185,6 +295,16 @@
 }
 
 .notif__content {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  transition: transform 0.18s ease;
+}
+
+.notif__body {
+  flex: 1;
+  display: grid;
+  gap: 8px;
   transition: transform 0.18s ease;
 }
 
@@ -195,11 +315,59 @@
   transition: opacity 0.18s ease;
 }
 
+.trash-btn {
+  background: #fff1f2;
+  color: #dc2626;
+  border: 1px solid #fecdd3;
+  border-radius: 12px;
+  box-shadow: 0 10px 18px rgba(248, 113, 113, 0.22);
+  font-weight: 800;
+}
+
+.trash-btn:hover {
+  background: #ffe4e6;
+  color: #b91c1c;
+  border-color: #fca5a5;
+}
+
 .notif:hover .notif__content {
   transform: translateX(-60px);
+}
+
+.notif:hover .actions {
+  transform: translateX(60px);
 }
 
 .notif:hover .trash {
   opacity: 1;
   pointer-events: auto;
+}
+
+.notif--accepted {
+  background: linear-gradient(180deg, #f0fdf4, #ffffff);
+  border-color: #bbf7d0;
+}
+
+.notif--refused {
+  background: linear-gradient(180deg, #fef2f2, #ffffff);
+  border-color: #fecdd3;
+}
+
+@media (max-width: 720px) {
+  .notif__content {
+    flex-direction: column;
+  }
+
+  .actions {
+    align-items: flex-start;
+    min-width: 0;
+  }
+
+  .actions__primary {
+    justify-content: flex-start;
+  }
+
+  .notif:hover .actions {
+    transform: translateX(0);
+  }
 }

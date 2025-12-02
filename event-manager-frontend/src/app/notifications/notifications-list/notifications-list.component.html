@@ -25,42 +25,68 @@
     <div *ngIf="error" class="alert alert--error">{{ error }}</div>
 
     <div class="list" *ngIf="!loading && notifications.length > 0">
-      <article class="notif" *ngFor="let notif of notifications">
+      <article
+        class="notif"
+        *ngFor="let notif of notifications"
+        [ngClass]="{
+          'notif--accepted': notif.decision === 'ACCEPTEE',
+          'notif--refused': notif.decision === 'REFUSEE'
+        }">
         <div class="notif__content">
-          <div class="notif__head">
-            <div class="pill" [class.pill--read]="notif.lue">
-              {{ notif.type || 'Info' }}
+          <div class="notif__body">
+            <div class="notif__head">
+              <div class="pill" [class.pill--read]="notif.lue">
+                {{ notif.type || 'Info' }}
+              </div>
+              <span class="time" *ngIf="notif.dateCreation">{{ notif.dateCreation | date:'short' }}</span>
             </div>
-            <span class="time" *ngIf="notif.dateCreation">{{ notif.dateCreation | date:'short' }}</span>
+            <p class="message" [class.message--read]="notif.lue">{{ notif.message }}</p>
           </div>
-          <p class="message" [class.message--read]="notif.lue">{{ notif.message }}</p>
+
           <div class="actions">
-            <button
-              *ngIf="!notif.lue"
-              hlmButton
-              size="sm"
-              (click)="markAsRead(notif)">
-              Marquer comme lue
-            </button>
-            <span class="status" *ngIf="notif.lue">Déjà lue</span>
+            <div class="actions__primary">
+              <button
+                *ngIf="!notif.lue"
+                hlmButton
+                size="sm"
+                class="btn-read"
+                (click)="markAsRead(notif)">
+                Marquer comme lue
+              </button>
+              <span class="status" *ngIf="notif.lue && !notif.decision">Déjà lue</span>
+            </div>
 
             <div
               class="decision"
               *ngIf="isOrganisateur && notif.type === 'NOUVELLE_INSCRIPTION' && notif.eventId && notif.participantId">
-              <button hlmButton size="sm" (click)="decideRegistration(notif, 'ACCEPTEE')">
-                Accepter
-              </button>
-              <button hlmButton size="sm" variant="ghost" (click)="decideRegistration(notif, 'REFUSEE')">
-                Refuser
-              </button>
+              <div class="decision__badge" *ngIf="notif.decision">
+                <span [ngClass]="notif.decision === 'ACCEPTEE' ? 'badge badge--accept' : 'badge badge--refuse'">
+                  {{ notif.decision === 'ACCEPTEE' ? 'Acceptée' : 'Refusée' }}
+                </span>
+              </div>
+
+              <ng-container *ngIf="!notif.decision; else modifyDecision">
+                <button hlmButton size="sm" class="btn-accept" (click)="decideRegistration(notif, 'ACCEPTEE')">
+                  Accepter
+                </button>
+                <button hlmButton size="sm" class="btn-refuse" (click)="decideRegistration(notif, 'REFUSEE')">
+                  Refuser
+                </button>
+              </ng-container>
+
+              <ng-template #modifyDecision>
+                <button hlmButton size="sm" class="btn-modify" (click)="resetDecision(notif)">
+                  Modifier
+                </button>
+              </ng-template>
             </div>
           </div>
         </div>
+
         <button
-          class="trash"
+          class="trash trash-btn"
           hlmButton
           size="sm"
-          variant="destructive"
           [disabled]="isOrganisateur && notif.type === 'NOUVELLE_INSCRIPTION' && !notif.lue"
           (click)="deleteNotification(notif)">
           🗑

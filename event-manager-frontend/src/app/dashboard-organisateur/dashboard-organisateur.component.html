@@ -77,7 +77,23 @@
           <input hlmInput type="text" [(ngModel)]="newEvent.programmeUrl" name="programmeUrl" placeholder="https://..." />
         </label>
 
-        <button hlmButton type="submit" size="lg" class="cta">Publier l’événement</button>
+        <button hlmButton type="submit" size="lg" class="cta">
+          <span class="cta__icon" aria-hidden="true">
+            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M3 8h7.5M8 4l4 4-4 4"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </span>
+          <span class="cta__text">
+            Publier l’événement
+            <small>Mise en ligne immédiate</small>
+          </span>
+        </button>
       </form>
     </div>
 
