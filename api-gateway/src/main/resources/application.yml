@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: api-gateway
+    name: API-GATEWAY
   cloud:
     gateway:
       default-filters:
@@ -23,18 +23,26 @@ spring:
             allowedHeaders: "*"
             allowCredentials: false
       routes:
-        - id: auth-service
-          uri: http://localhost:8082
-          predicates:
-            - Path=/api/auth/**
-        - id: events-service
-          uri: http://localhost:8081
-          predicates:
-            - Path=/api/events/**, /api/registrations/**, /api/files/**
-        - id: notifications-service
-          uri: http://localhost:8083
-          predicates:
-            - Path=/api/notifications/**
+      - id: auth-service
+        uri: lb://AUTH-SERVICE
+        predicates:
+          - Path=/api/auth/**
+      - id: events-service
+        uri: lb://EVENTS-SERVICE
+        predicates:
+          - Path=/api/events/**, /api/registrations/**, /api/files/**
+      - id: notifications-service
+        uri: lb://NOTIFICATIONS-SERVICE
+        predicates:
+          - Path=/api/notifications/**
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
 
 management:
   endpoints:
